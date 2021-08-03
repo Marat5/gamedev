@@ -136,6 +136,7 @@ temp/
 **/*.back.*
 
 node_modules
+postgresdata
 
 *.sublime*
 
