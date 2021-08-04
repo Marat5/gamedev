@@ -4,9 +4,6 @@ FROM node:12
 # Копируем всё что нужно из локальной папки в образ
 COPY . ./
 
-COPY package.json ./
-COPY package-lock.json ./
-
 # Устанавливаем зависимости, в образе появится /node_modules
 RUN npm i; npm run build;
 
