@@ -33,6 +33,8 @@ const config: Configuration = {
     ],
   },
 
+  watch: IS_DEV,
+
   devtool: 'source-map',
 
   performance: {
