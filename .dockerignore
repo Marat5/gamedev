@@ -2,3 +2,4 @@ node_modules
 dist
 distServer
 postgresdata
+dev.env
