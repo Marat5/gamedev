@@ -5,10 +5,10 @@ import config from '../../webpackConfigs/client.config';
 import { IndexController } from './controllers/IndexController';
 import { webpackMiddlewares } from './middlewares/webpackMiddleware';
 import { sequelize } from './models';
-import { User } from './models/User';
 import { ThemesController } from './controllers/ThemesController';
 import { ThemesService } from './services/ThemesService';
 import { UsersController } from './controllers/UsersController';
+import { UsersService } from './services/UsersService';
 
 const port = 5000;
 
@@ -17,7 +17,7 @@ export const startServer = async () => {
   await sequelize.sync({ force: true });
 
   // Создаем юзера после подключения к базе, чтобы нам было что отдать с ручки
-  User.create({
+  UsersService.create({
     name: 'Steve',
   });
 
