@@ -21,7 +21,7 @@ export const authAPI = {
         method: 'post',
         url: PATHS.auth.signIn,
         data,
-        authRequired: true,
+        responseFormat: 'text',
       });
 
       if (response.data && is<SignInResponse>(response.data)) {
@@ -38,7 +38,7 @@ export const authAPI = {
       const response = await callApi({
         method: 'post',
         url: PATHS.auth.logout,
-        authRequired: false,
+        responseFormat: 'text',
       });
 
       if (response.data && is<LogOutResponse>(response.data)) {
@@ -56,7 +56,6 @@ export const authAPI = {
         method: 'post',
         url: PATHS.auth.signUp,
         data,
-        authRequired: true,
       });
 
       if (response.data && is<SignUpResponse>(response.data)) {
@@ -78,7 +77,6 @@ export const authAPI = {
       const response = await callApi({
         method: 'get',
         url: PATHS.auth.userInfo,
-        authRequired: true,
       });
 
       if (response.data && is<UserResponse>(response.data)) {

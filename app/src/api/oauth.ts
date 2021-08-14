@@ -11,8 +11,7 @@ export const oauthAPI = {
       const response = await callApi({
         method: 'get',
         url: PATHS.oauth.getServiceId,
-        data,
-        authRequired: true,
+        params: data,
       });
 
       if (response.data && is<OAuthServiceIdResponse>(response.data)) {
@@ -30,7 +29,7 @@ export const oauthAPI = {
         method: 'post',
         url: PATHS.oauth.signIn,
         data,
-        authRequired: false,
+        responseFormat: 'text',
       });
 
       if (response.data && is<OauthSignInResponse>(response.data)) {

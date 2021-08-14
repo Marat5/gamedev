@@ -1,15 +1,24 @@
 /* eslint-disable camelcase */
-import { Method } from 'axios';
-
 export const ERROR_RESPONSE_DATA = 'Invalid response data!';
+
+export type Method =
+ 'get' | 'GET' |
+ 'delete' | 'DELETE' |
+ 'head' | 'HEAD' |
+ 'options' | 'OPTIONS' |
+ 'post' | 'POST' |
+ 'put' | 'PUT' |
+ 'patch' | 'PATCH' |
+ 'purge' | 'PURGE' |
+ 'link' | 'LINK' |
+ 'unlink' | 'UNLINK'
 
 export type ApiRequestProps = {
   method: Method,
   url: string,
   data?: any,
   params?: any,
-  authRequired?: boolean,
-  formData?: boolean
+  responseFormat?: 'json' | 'text'
 }
 
 export enum ResponseStatus {
@@ -21,6 +30,10 @@ export type ApiResponse = {
   status: ResponseStatus
   data?: any,
   error?: string | null
+}
+
+export type ErrorApiResponse = {
+  reason: string
 }
 
 export type SignInRequest = {
@@ -47,7 +60,8 @@ export type SignUpResponse = {
 
 export type UserResponse = {
   id: number,
-  first_name: string | null,
+  first_name: string |
+   null,
   second_name: string | null,
   display_name: string | null,
   login: string,

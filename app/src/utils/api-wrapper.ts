@@ -1,64 +1,60 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import { ApiRequestProps, ApiResponse, ResponseStatus } from 'api/types';
-import { AUTH_TOKEN_NAME } from 'api/config';
+import {
+  ApiRequestProps, ApiResponse, ErrorApiResponse, ResponseStatus,
+} from 'api/types';
+import { is } from 'typescript-is';
 
-const axiosInstance = axios.create({});
+type RequestConfig = {
+  body?: string | FormData,
+  params?: any
+};
 
 export const callApi: (params: ApiRequestProps) => Promise<ApiResponse> = async ({
   method,
   url,
   data,
   params,
-  authRequired = false,
-  formData = false,
+  responseFormat = 'json',
 }) => {
-  const authToken = localStorage?.getItem(AUTH_TOKEN_NAME) || '';
-
   const response: ApiResponse = {
     status: ResponseStatus.SUCCESS,
     data: null,
   };
 
-  const requestConfig: AxiosRequestConfig = {
-    headers: {},
-    method,
-    url,
-    withCredentials: true,
-    validateStatus(status) {
-      if (status < 400) {
-        return true;
-      }
-      if (status === 401) {
-        // убрал диспатч, т.к. он создает циклические импорты
-        // либо как-то меняют порядок импортов.
-        // Вследствие чего при сборке редюсеров userSlice еще undefined.
-        // store.dispatch(userActions.logout());
-      }
-      return false;
-    },
-  };
+  const requestConfig: RequestConfig = {};
 
-  if (authRequired && authToken) {
-    requestConfig.headers.Authorization = `Token ${authToken}`;
-  }
-
-  if (formData) {
-    requestConfig.headers['Content-Type'] = 'multipart/form-data';
-  }
+  const headers = new Headers();
 
   if (data) {
-    requestConfig.data = data;
+    if (data instanceof FormData) {
+      requestConfig.body = data;
+    } else {
+      requestConfig.body = JSON.stringify(data);
+      headers.append('Content-Type', 'application/json');
+    }
   }
 
   if (params) {
     requestConfig.params = params;
   }
 
-  await axiosInstance(requestConfig)
+  await fetch(url, {
+    mode: 'cors',
+    method,
+    credentials: 'include',
+    headers,
+    ...requestConfig,
+  })
     .then((resp) => {
-      if (resp.data) {
-        response.data = resp.data;
+      if (!resp.ok) {
+        return resp.json();
       }
+      return resp.ok ? resp[responseFormat]() : resp.json();
+    })
+    .then((respData) => {
+      if (respData && is<ErrorApiResponse>(respData)) {
+        throw new Error(respData.reason);
+      }
+      response.data = respData;
     })
     .catch((error) => {
       if (error.response?.data?.reason) {
