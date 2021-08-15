@@ -11,12 +11,6 @@ export type ApiRequestProps = {
   formData?: boolean
 }
 
-export type ApiResponse = {
-  status: number,
-  data?: any,
-  error?: string | null
-}
-
 export type SignInRequest = {
   login: string,
   password: string
