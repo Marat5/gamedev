@@ -74,7 +74,7 @@ export const Forum: FC<ForumPageProps> = ({ className }) => {
           title={t('start_new_topic')}
           styleOption="secondary"
           size="l"
-          onClick={() => history.push('/topic')}
+          onClick={() => history.push('/new-topic')}
         />
       </div>
     </div>

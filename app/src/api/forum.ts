@@ -16,7 +16,7 @@ export const forumAPI = {
   addTopic: async (data: AddTopicRequest): Promise<AddTopicResponse> => {
     try {
       const response = await callApi({
-        method: 'get',
+        method: 'post',
         url: PATHS.forum.addTopic,
         data,
         authRequired: true,
