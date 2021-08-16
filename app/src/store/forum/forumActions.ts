@@ -1,8 +1,7 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { forumAPI } from 'api/forum';
 import { AddCommentRequest, AddTopicRequest, GetCommentsRequest } from 'api/types';
 import { setIsLoadingShown } from 'store/requestStatus/requestStatusActions';
-import { createAction } from '@reduxjs/toolkit';
 
 export enum ForumActionType {
   GET_TOPICS = 'forum/getTopicsAsync',
@@ -57,7 +56,7 @@ export const addCommentAsync = createAsyncThunk(
   async (data: AddCommentRequest, thunkAPI) => {
     thunkAPI.dispatch(setIsLoadingShown(true));
     try {
-      const response = await forumAPI.addTopic(data);
+      const response = await forumAPI.addComment(data);
       return response;
     } finally {
       thunkAPI.dispatch(setIsLoadingShown(false));
@@ -66,3 +65,4 @@ export const addCommentAsync = createAsyncThunk(
 );
 
 export const setActiveTopicId = createAction<number>('setActiveTopicId');
+export const setActiveTopicTitle = createAction<string>('setActiveTopicTitle');

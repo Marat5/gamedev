@@ -5,11 +5,10 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { BackButton } from 'components/molecules/BackButton/BackButton';
 import { useHistory } from 'react-router-dom';
-// import { dummyPosts } from 'pages/Topic/constants';
 import { useSelector } from 'react-redux';
 import { selectActiveTopicId, selectCommentsList, selectTopicsList } from 'store/forum/forumSelectors';
 import { useMountEffect } from 'hooks/useMountEffect';
-import { getCommentsAsync } from 'store/forum/forumActions';
+import { getCommentsAsync, setActiveTopicTitle } from 'store/forum/forumActions';
 import { useBoundAction } from 'hooks/useBoundAction';
 
 export type TopicPageProps = {
@@ -20,16 +19,19 @@ export const Topic: FC<TopicPageProps> = ({ className }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const getCommentsAsyncBounded = useBoundAction(getCommentsAsync);
+  const setActiveTopicTitleBounded = useBoundAction(setActiveTopicTitle);
   const activeTopicId = useSelector(selectActiveTopicId);
   const topicsList = useSelector(selectTopicsList);
   const activeTopic = topicsList.find((topic) => topic.id === activeTopicId);
   const comments = useSelector(selectCommentsList);
 
+  setActiveTopicTitleBounded(activeTopic?.title);
+
   useMountEffect(() => getCommentsAsyncBounded({ topicId: activeTopicId, page: 1 }));
 
   return (
     <div className={classNames(['page', className])}>
-      <h1 className="page__title">{t('forum')}</h1>
+      <h1 className="page__title">{t('topic')}</h1>
       <div className="topic">
         <span className="topic__title">{activeTopic?.title}</span>
         <div className="topic__posts-list">
@@ -41,11 +43,11 @@ export const Topic: FC<TopicPageProps> = ({ className }) => {
                 <div className="topic__avatar-container">
                   <img className="topic__avatar" src={undefined} alt="avatar" />
                 </div>
-                <span>{username}</span>
+                <span className="topic__username">{username}</span>
               </div>
               <div className="topic__content-container">
                 <span>{new Date(updatedAt).toLocaleDateString()}</span>
-                <span>{text}</span>
+                <span className="topic__content-text">{text}</span>
               </div>
             </span>
           ))}

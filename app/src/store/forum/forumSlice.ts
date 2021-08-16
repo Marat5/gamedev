@@ -2,7 +2,9 @@ import {
   Comment, GetCommentsResponse, GetTopicsResponse, Topic,
 } from 'api/types';
 import { createSlice } from '@reduxjs/toolkit';
-import { getCommentsAsync, getTopicsAsync, setActiveTopicId } from 'store/forum/forumActions';
+import {
+  getCommentsAsync, getTopicsAsync, setActiveTopicId, setActiveTopicTitle,
+} from 'store/forum/forumActions';
 
 type ForumState = {
   topicsList: Topic[]
@@ -10,6 +12,7 @@ type ForumState = {
   topicsCount: number
   commentsCount: number
   activeTopicId: number | undefined
+  activeTopicTitle: string
   activeTopicPage: number
   activeCommentPage: number
 }
@@ -21,6 +24,7 @@ const initialState: ForumState = {
   commentsCount: 0,
   activeCommentPage: 0,
   activeTopicId: undefined,
+  activeTopicTitle: 'undefined title',
   activeTopicPage: 0,
 };
 
@@ -40,6 +44,10 @@ const updateActiveTopicId = (state: ForumState, payload: number) => {
   state.activeTopicId = payload;
 };
 
+const updateActiveTopicTitle = (state: ForumState, payload: string) => {
+  state.activeTopicTitle = payload;
+};
+
 export const forumSlice = createSlice({
   name: 'forum',
   initialState,
@@ -53,6 +61,9 @@ export const forumSlice = createSlice({
     });
     builder.addCase(setActiveTopicId, (state, action) => {
       updateActiveTopicId(state, action.payload);
+    });
+    builder.addCase(setActiveTopicTitle, (state, action) => {
+      updateActiveTopicTitle(state, action.payload);
     });
   },
 });
