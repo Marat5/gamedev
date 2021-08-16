@@ -14,46 +14,4 @@ export const dummyPosts = [
     date: 'date',
     message: 'Test message',
   },
-  {
-    nickname: 'nickname',
-    avatar: avatarDummy,
-    date: 'date',
-    message: 'Test message',
-  },
-  {
-    nickname: 'nickname',
-    avatar: avatarDummy,
-    date: 'date',
-    message: 'Test message',
-  },
-  {
-    nickname: 'nickname',
-    avatar: avatarDummy,
-    date: 'date',
-    message: 'Test message',
-  },
-  {
-    nickname: 'nickname',
-    avatar: avatarDummy,
-    date: 'date',
-    message: 'Test message',
-  },
-  {
-    nickname: 'nickname',
-    avatar: avatarDummy,
-    date: 'date',
-    message: 'Test message',
-  },
-  {
-    nickname: 'nickname',
-    avatar: avatarDummy,
-    date: 'date',
-    message: 'Test message',
-  },
-  {
-    nickname: 'nickname',
-    avatar: avatarDummy,
-    date: 'date',
-    message: 'Test message',
-  },
 ];
